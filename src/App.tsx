@@ -1,6 +1,6 @@
 
 import './App.css'
-// import ButtonUsage from './components/Button'
+import ButtonUsage from './components/Button'
 // import AnchorTemporaryDrawer from './components/Drawer'
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from './theme';
@@ -15,7 +15,7 @@ function App() {
       <BoxSx>
         {/* <AnchorTemporaryDrawer /> */}
         <MiniDrawer />
-        {/* <ButtonUsage /> */}
+        <ButtonUsage />
       </BoxSx>
     </ThemeProvider>
   )
