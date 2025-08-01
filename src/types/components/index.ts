@@ -1,4 +1,3 @@
-// types/index.ts
 export type ComponentName = 'dashboard' | 'analytics' | 'settings' | 'profile';
 export type PageName = 'home' | 'workspace' | 'admin' | 'reports';
 

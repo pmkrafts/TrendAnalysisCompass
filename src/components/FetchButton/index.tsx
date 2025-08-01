@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux/index";
 import { userSelector, fetchUsers } from "../../store/features/users/userSlice";
 import type { User } from "../../store/features/users/userSlice";
-// import Button from '@mui/material/Button';
 
 export default function FetchButton() {
 
