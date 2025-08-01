@@ -1,0 +1,169 @@
+// METHOD 1: Using Browser DevTools
+/*
+1. Right-click component → Inspect Element
+2. Look for class names like:
+   - .MuiButton-root (main container)
+   - .MuiButton-contained (variant styles)
+   - .MuiButton-label (text content)
+3. See which CSS properties are applied
+4. Copy the structure to your theme
+*/
+
+// METHOD 2: MUI Documentation Pattern
+// Go to: https://mui.com/material-ui/api/button/
+// Look for "CSS" section - shows all available classes
+
+// METHOD 3: Console Debugging
+// Add this to see all applied classes
+const debugComponent = (ref) => {
+    console.log('Classes:', ref.current.className);
+    console.log('Computed styles:', window.getComputedStyle(ref.current));
+};
+
+// METHOD 4: Theme Explorer Component
+import React from 'react';
+import { useTheme } from '@mui/material/styles';
+
+const ThemeExplorer = () => {
+    const theme = useTheme();
+
+    // Log theme structure
+    console.log('Full theme:', theme);
+    console.log('Component overrides:', theme.components);
+
+    return null;
+};
+
+// METHOD 5: Systematic Component Analysis
+const discoverComponentStyles = {
+    // Step 1: Identify the component slots
+    slots: {
+        root: 'Main container element',
+        input: 'Input field (for TextField)',
+        label: 'Label element',
+        // ... more slots
+    },
+
+    // Step 2: Find the theme path
+    themePath: 'theme.components.MuiTextField.styleOverrides.root',
+
+    // Step 3: Common properties to customize
+    commonProps: [
+        'background',
+        'border',
+        'borderRadius',
+        'color',
+        'padding',
+        'margin',
+        'boxShadow',
+        'fontSize',
+        'fontWeight'
+    ]
+};
+
+// METHOD 6: Real Example - TextField Discovery
+const TextFieldStyleDiscovery = {
+    // What you see in DevTools:
+    observedClasses: [
+        '.MuiTextField-root',           // Main wrapper
+        '.MuiOutlinedInput-root',       // Input container
+        '.MuiOutlinedInput-input',      // Actual input element
+        '.MuiInputLabel-root',          // Label
+        '.MuiOutlinedInput-notchedOutline' // Border
+    ],
+
+    // How to target them in theme:
+    themeOverrides: {
+        MuiTextField: {
+            styleOverrides: {
+                root: {
+                    // Styles for .MuiTextField-root
+                }
+            }
+        },
+        MuiOutlinedInput: {
+            styleOverrides: {
+                root: {
+                    // Styles for .MuiOutlinedInput-root
+                },
+                input: {
+                    // Styles for .MuiOutlinedInput-input
+                },
+                notchedOutline: {
+                    // Styles for border
+                }
+            }
+        },
+        MuiInputLabel: {
+            styleOverrides: {
+                root: {
+                    // Styles for label
+                }
+            }
+        }
+    }
+};
+
+// METHOD 7: Using sx prop to test first
+const TestingSxProp = () => {
+    return (
+        <TextField
+            sx={{
+                // Test styles here first
+                '& .MuiOutlinedInput-root': {
+                    backgroundColor: 'red', // Test if this works
+                },
+                '& .MuiInputLabel-root': {
+                    color: 'blue', // Test label styling
+                }
+            }}
+        />
+    );
+};
+
+// METHOD 8: Component Slots Documentation Helper
+const getComponentSlots = (componentName) => {
+    // Check MUI docs: https://mui.com/material-ui/api/[component-name]/
+    // Look for "CSS" section
+    // Example for Button:
+    return {
+        root: '.MuiButton-root',
+        text: '.MuiButton-text',
+        contained: '.MuiButton-contained',
+        outlined: '.MuiButton-outlined',
+        startIcon: '.MuiButton-startIcon',
+        endIcon: '.MuiButton-endIcon'
+    };
+};
+
+// METHOD 9: Theme Augmentation for IntelliSense
+declare module '@mui/material/styles' {
+    interface ComponentNameToClassKey {
+        MuiButton: 'root' | 'text' | 'contained' | 'outlined';
+    }
+}
+
+// METHOD 10: Quick Reference Patterns
+const commonPatterns = {
+    // Input components usually have:
+    inputs: ['root', 'input', 'label', 'helperText'],
+
+    // Display components usually have:
+    display: ['root', 'primary', 'secondary'],
+
+    // Navigation components usually have:
+    navigation: ['root', 'item', 'selected'],
+
+    // Feedback components usually have:
+    feedback: ['root', 'message', 'action']
+};
+
+export {
+    debugComponent,
+    ThemeExplorer,
+    discoverComponentStyles,
+    TextFieldStyleDiscovery,
+    TestingSxProp,
+    getComponentSlots,
+    commonPatterns
+};
