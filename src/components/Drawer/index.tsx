@@ -4,18 +4,11 @@ import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiAppBar from '@mui/material/AppBar';
 import type { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
+// import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import {
     Toolbar,
     Typography,
@@ -26,8 +19,10 @@ import {
     Box
 } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import FetchButton from '../../FetchButton';
-import ExampleComponent from '../../componentRegistry';
+import FetchButton from '../FetchButton';
+import ExampleComponent from '../componentRegistry';
+// import type { ComponentName, PageName, PageConfig, PageState } from '../../types/components/index';
+import NestedList from '../PageList';
 
 const drawerWidth = 240;
 
@@ -37,6 +32,8 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
     flexGrow: 1,
     margin: "auto",
     width: "100%",
+    minHeight: "100vh",
+    height: "100%",
     padding: theme.spacing(3),
     transition: theme.transitions.create('margin', {
         easing: theme.transitions.easing.sharp,
@@ -90,6 +87,12 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end',
+    [theme.breakpoints.up('sm')]: {
+        minHeight: 64,
+    },
+    [theme.breakpoints.down('sm')]: {
+        minHeight: 56,
+    },
 }));
 
 export default function PersistentDrawerLeft() {
@@ -105,7 +108,7 @@ export default function PersistentDrawerLeft() {
     };
 
     return (
-        <Box className="dashboardComponentContainer" sx={{ display: 'flex', margin: "auto", width: "100%" }}>
+        <Box className="dashboardComponentContainer" sx={{ display: 'flex', margin: "auto", width: "100vw", height: "auto", overflowX: "scroll" }}>
             <CssBaseline />
             <AppBar position="fixed" open={open}>
                 <Toolbar>
@@ -146,32 +149,8 @@ export default function PersistentDrawerLeft() {
                         {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
                     </IconButton>
                 </DrawerHeader>
-                <Divider />
-                <List>
-                    {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                        <ListItem key={text} disablePadding>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                                </ListItemIcon>
-                                <ListItemText primary={text} />
-                            </ListItemButton>
-                        </ListItem>
-                    ))}
-                </List>
-                <Divider />
-                <List>
-                    {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                        <ListItem key={text} disablePadding>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                                </ListItemIcon>
-                                <ListItemText primary={text} />
-                            </ListItemButton>
-                        </ListItem>
-                    ))}
-                </List>
+                {/* <Divider /> */}
+                <NestedList />
             </Drawer>
             <Main open={open}>
                 <DrawerHeader />

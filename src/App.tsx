@@ -4,7 +4,7 @@ import { ThemeProvider, CssBaseline } from '@mui/material';
 import bentoGlassTheme from './theme';
 
 
-import PersistentDrawerLeft from './components/card/Drawer';
+import PersistentDrawerLeft from './components/Drawer';
 
 function App() {
 

@@ -1,30 +1,30 @@
 import { createSelector } from '@reduxjs/toolkit';
 import type { RootState } from '../../../store';
-import type { ComponentName, PageName } from '../../../../types/components/index';
+import type { ComponentName, TabName } from '../../../../types/components/index';
 
-export const selectPageState = (state: RootState) => state.pages;
-export const selectCurrentPage = (state: RootState) => state.pages.currentPage;
-export const selectPageConfig = (state: RootState) => state.pages.pageConfig;
-export const selectLoading = (state: RootState) => state.pages.loading;
-export const selectError = (state: RootState) => state.pages.error;
+export const selectTabState = (state: RootState) => state.tabs;
+export const selectCurrentTab = (state: RootState) => state.tabs.currentTab;
+export const selectTabConfig = (state: RootState) => state.tabs.tabConfig;
+export const selectLoading = (state: RootState) => state.tabs.loading;
+export const selectError = (state: RootState) => state.tabs.error;
 
 
-export const selectComponentsForCurrentPage = createSelector(
-    [selectCurrentPage, selectPageConfig],
-    (currentPage, pageConfig) => pageConfig[currentPage] || []
+export const selectComponentsForCurrentTab = createSelector(
+    [selectCurrentTab, selectTabConfig],
+    (currentTab, tabConfig) => tabConfig[currentTab] || []
 );
 
-export const selectComponentsForPage = (page: PageName) =>
+export const selectComponentsForTab = (tab: TabName) =>
     createSelector(
-        [selectPageConfig],
-        (pageConfig) => pageConfig[page] || []
+        [selectTabConfig],
+        (tabConfig) => tabConfig[tab] || []
     );
 
-export const selectPagesContainingComponent = (component: ComponentName) =>
+export const selectTabsContainingComponent = (component: ComponentName) =>
     createSelector(
-        [selectPageConfig],
-        (pageConfig) =>
-            Object.keys(pageConfig).filter(page =>
-                pageConfig[page].includes(component)
-            ) as PageName[]
+        [selectTabConfig],
+        (tabConfig) =>
+            Object.keys(tabConfig).filter(tab =>
+                tabConfig[tab].includes(component)
+            ) as TabName[]
     );

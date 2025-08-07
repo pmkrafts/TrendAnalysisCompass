@@ -1,81 +1,90 @@
 import { useAppDispatch, useAppSelector } from '../../hooks/redux/index';
 import {
-    setCurrentPage,
-    addComponentToPage,
-    loadPageConfigAsync,
-    removeComponentFromPage,
-    updatePageConfig,
-    reorderComponentsOnPage,
-    toggleComponentOnPage,
-    resetPageConfig,
-} from '../../store/features/componentRegistry/pageSlice';
+    setCurrentTab,
+    addComponentToTab,
+    loadTabConfigAsync,
+    removeComponentFromTab,
+    updateTabConfig,
+    reorderComponentsOnTab,
+    toggleComponentOnTab,
+    resetTabConfig,
+} from '../../store/features/componentRegistry/tabsSlice';
 import {
-    selectCurrentPage,
-    selectComponentsForCurrentPage,
+    selectCurrentTab,
+    selectComponentsForCurrentTab,
     selectLoading,
     selectError,
 } from '../../store/features/componentRegistry/selectors/index';
 
-import type { ComponentName, PageName } from '../../types/components/index';
+import type { ComponentName, TabName } from '../../types/components/index';
+import React from 'react';
 
 export default function ExampleComponent() {
     const dispatch = useAppDispatch();
-    const currentPage = useAppSelector(selectCurrentPage);
-    const components = useAppSelector(selectComponentsForCurrentPage);
+    const currentTab = useAppSelector(selectCurrentTab);
+    const components = useAppSelector(selectComponentsForCurrentTab);
     const loading = useAppSelector(selectLoading);
     const error = useAppSelector(selectError);
 
-    const handlePageChange = (page: PageName) => {
-        dispatch(setCurrentPage(page));
+    const handleTabChange = (tab: TabName) => {
+        dispatch(setCurrentTab(tab));
     };
 
-    const handlePageCofig = (page: PageName, components: ComponentName[]) => {
-        dispatch(updatePageConfig({ page, components }));
+    const handleTabCofig = (tab: TabName, components: ComponentName[]) => {
+        dispatch(updateTabConfig({ tab, components }));
     };
 
     const handleAddComponent = (component: ComponentName) => {
-        dispatch(addComponentToPage({ page: currentPage, component }));
+        dispatch(addComponentToTab({ tab: currentTab, component }));
     };
 
     const handleRemoveComponent = (component: ComponentName) => {
-        dispatch(removeComponentFromPage({ page: currentPage, component }));
+        dispatch(removeComponentFromTab({ tab: currentTab, component }));
     };
 
-    const handleReorderComponentsOnPage = (page: PageName, components: ComponentName[]) => {
-        dispatch(reorderComponentsOnPage({ page, components }));
+    const handleReorderComponentsOnTab = (tab: TabName, components: ComponentName[]) => {
+        dispatch(reorderComponentsOnTab({ tab, components }));
     };
 
-    const handleToggleComponentOnPage = (page: PageName, component: ComponentName) => {
-        dispatch(toggleComponentOnPage({ page, component }));
+    const handleToggleComponentOnTab = (tab: TabName, component: ComponentName) => {
+        dispatch(toggleComponentOnTab({ tab, component }));
     };
 
-    const handleResetPageConfig = () => {
-        dispatch(resetPageConfig());
+    const handleResetTabConfig = () => {
+        dispatch(resetTabConfig());
     };
 
     const handleLoadConfig = () => {
         const sampleConfig = {
             home: ['dashboard'] as ComponentName[],
-            workspace: ['settings', 'profile'] as ComponentName[],
+            platform: ['settings', 'profile'] as ComponentName[],
         };
-        dispatch(loadPageConfigAsync(sampleConfig));
+        dispatch(loadTabConfigAsync(sampleConfig));
     };
 
     return (
-        <div>
+        <React.Fragment>
             {loading && <div>Loading...</div>}
             {error && <div>Error: {error}</div>}
 
-            <button onClick={() => handlePageChange('home')}>Home</button>
-            <button onClick={() => handlePageChange('workspace')}>Workspace</button>
+            <p>
+                Components on current tab {currentTab} are {
+                    components.map((component, idx) => (
+                        <span key={idx}>{component}{idx < components.length - 1 ? ', ' : ''}</span>
+                    ))
+                }
+            </p>
 
-            <button onClick={() => handlePageCofig(currentPage, ['analytics', 'profile'])}>Update Config</button>
-            <button onClick={() => handleReorderComponentsOnPage(currentPage, ['profile', 'analytics'])}>Reorder pagecomp Config</button>
-            <button onClick={() => handleToggleComponentOnPage(currentPage, 'profile')}>Toggle profile</button>
-            <button onClick={() => handleResetPageConfig()}>Reset config</button>
+            <button onClick={() => handleTabChange('home')}>Home</button>
+            <button onClick={() => handleTabChange('platform')}>platform</button>
+
+            <button onClick={() => handleTabCofig(currentTab, ['analytics', 'profile'])}>Update Config</button>
+            <button onClick={() => handleReorderComponentsOnTab(currentTab, ['profile', 'analytics'])}>Reorder tabcomp Config</button>
+            <button onClick={() => handleToggleComponentOnTab(currentTab, 'profile')}>Toggle profile</button>
+            <button onClick={() => handleResetTabConfig()}>Reset config</button>
 
             <div>
-                Current Page: {currentPage}
+                Current Tab: {currentTab}
                 Components: {components.join(', ')}
             </div>
 
@@ -93,6 +102,6 @@ export default function ExampleComponent() {
             </button>
 
             <button onClick={handleLoadConfig}>Load Sample Config</button>
-        </div>
+        </React.Fragment>
     );
 };

@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import userReducer from './features/users/userSlice'
-import pageReducer from './features/componentRegistry/pageSlice';
+import tabReducer from './features/componentRegistry/tabsSlice';
 
 export const store = configureStore({
     reducer: {
         userReducer,
-        pages: pageReducer,
+        tabs: tabReducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
